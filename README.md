@@ -34,7 +34,13 @@ singularity pull dragonwell-v0.0.1alpha.sif \
   docker://ghcr.io/t7phy/dragonwell:v0.0.1alpha
 ```
 
-Run it from a directory containing the three run cards:
+Open the container's shell:
+
+```sh
+singularity run dragonwell-v0.0.1alpha.sif
+```
+
+Run DragonWell explicitly from a directory containing the three run cards:
 
 ```sh
 singularity exec \
@@ -64,7 +70,13 @@ Build from the repository root:
 docker build --progress=plain --tag dragonwell:dev .
 ```
 
-Run from a directory containing the three run cards:
+Open the container's shell:
+
+```sh
+docker run --rm -it dragonwell:dev
+```
+
+Run DragonWell explicitly from a directory containing the three run cards:
 
 ```sh
 docker run --rm -it \

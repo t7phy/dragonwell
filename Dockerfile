@@ -244,4 +244,4 @@ RUN ldconfig \
        done
 
 WORKDIR /work
-CMD ["PDFFit_Minuit2"]
+CMD ["/bin/bash"]
