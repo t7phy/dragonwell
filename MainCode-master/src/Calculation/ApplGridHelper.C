@@ -2772,6 +2772,7 @@ void ApplGridHelper::DefaultConvoluteppbarMacro(TString GridName, vector<double>
 #ifdef USE_APPLGRID
  vector<double> xsec;
 
+ if(PDFType == PDFTypeEnum::CT_LHAPDF) _pdf = evolvepdf_;
  if(PDFType == PDFTypeEnum::CT_LHAPDF) xsec = ApplGridMap[GridName]->vconvolute( evolvepdf_, evolvepdfpbar_, alphaspdf_, order);
 
  if(PDFType == PDFTypeEnum::CT_CTEQ) xsec = ApplGridMap[GridName]->vconvolute( cteqevolvepdf_, cteqevolvepdfpbar_, cteqalphaspdf_, order);
