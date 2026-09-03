@@ -11,15 +11,18 @@ datasets are runtime inputs; they are not baked into the image.
 ## Published container
 
 Pushing a Git tag whose name begins with `v` publishes the corresponding OCI
-image to GitHub Container Registry. For example, tag `v0.0.1alpha` publishes:
+image to GitHub Container Registry. Each tagged release publishes both its
+version tag and `latest`. For example, tag `v0.0.2alpha` publishes:
 
 ```text
-ghcr.io/t7phy/dragonwell:v0.0.1alpha
+ghcr.io/t7phy/dragonwell:v0.0.2alpha
+ghcr.io/t7phy/dragonwell:latest
 ```
 
 The workflow accepts tags only when the tagged commit is part of `main`. It
-publishes Linux x86-64 images and deliberately does not give prereleases the
-ambiguous `latest` tag.
+publishes Linux x86-64 images. The `latest` tag points to the most recently
+published tagged release, while version tags remain available for reproducible
+runs.
 
 After the first workflow run, verify that the package visibility is **Public**
 under the package settings on GitHub. Public GHCR images can be pulled without
@@ -30,21 +33,29 @@ registry credentials.
 Pull the OCI image and convert it to SIF:
 
 ```sh
-singularity pull dragonwell-v0.0.1alpha.sif \
-  docker://ghcr.io/t7phy/dragonwell:v0.0.1alpha
+singularity pull --force dragonwell.sif \
+  docker://ghcr.io/t7phy/dragonwell:latest
+```
+
+The `--force` option refreshes the same local file when a newer tagged release
+updates `latest`. For a reproducible run, use a versioned URI and filename:
+
+```sh
+singularity pull dragonwell-v0.0.2alpha.sif \
+  docker://ghcr.io/t7phy/dragonwell:v0.0.2alpha
 ```
 
 Open the container's shell:
 
 ```sh
-singularity run dragonwell-v0.0.1alpha.sif
+singularity run dragonwell.sif
 ```
 
 Run DragonWell explicitly from a directory containing the three run cards:
 
 ```sh
 singularity exec \
-  dragonwell-v0.0.1alpha.sif \
+  dragonwell.sif \
   PDFFit_Minuit2
 ```
 
@@ -57,8 +68,8 @@ LHAPDF data directory:
 ```sh
 singularity exec \
   --bind /path/on/host/lhapdf:/lhapdf \
-  --env LHAPDF_DATA_PATH=/lhapdf \
-  dragonwell-v0.0.1alpha.sif \
+  --env LHAPDF_PDF_DIR=/lhapdf \
+  dragonwell.sif \
   PDFFit_Minuit2
 ```
 
