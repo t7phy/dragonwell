@@ -68,7 +68,6 @@ LHAPDF data directory:
 ```sh
 singularity exec \
   --bind /path/on/host/lhapdf:/lhapdf \
-  --env LHAPDF_PDF_DIR=/lhapdf \
   dragonwell.sif \
   PDFFit_Minuit2
 ```

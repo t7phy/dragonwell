@@ -28,8 +28,9 @@ docker run --rm -it -v "$PWD:/work" -w /work dragonwell:dev PDFFit_Minuit2
 the current directory, which is bound automatically. Dataset and interpolation
 grid paths remain controlled by `DataList.yml`; they are not stored in the
 image. External paths that are not already visible inside the container must
-be bound explicitly. LHAPDF data sets are likewise expected to be supplied at
-runtime by binding their host directory and setting `LHAPDF_DATA_PATH`.
+be bound explicitly. LHAPDF data sets are expected to be supplied at runtime
+by binding their host directory to `/lhapdf`; the image sets
+`LHAPDF_PDF_DIR=/lhapdf` automatically.
 
 Tagged builds are published to GitHub Container Registry as
 `ghcr.io/t7phy/dragonwell:<tag>`. See the repository's top-level README for the

@@ -229,7 +229,8 @@ LABEL org.opencontainers.image.source="https://github.com/t7phy/dragonwell" \
       org.opencontainers.image.description="DragonWell PDF fitting tools and their scientific dependencies"
 
 ENV PATH=/opt/dragonwell/bin:${PATH} \
-    LD_LIBRARY_PATH=/opt/dragonwell/lib:${LD_LIBRARY_PATH}
+    LD_LIBRARY_PATH=/opt/dragonwell/lib:${LD_LIBRARY_PATH} \
+    LHAPDF_PDF_DIR=/lhapdf
 
 RUN ldconfig \
     && for executable in \
