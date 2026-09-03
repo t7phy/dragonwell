@@ -1,0 +1,179 @@
+LibraryNames libTopEventSelectionTools libTopEventReconstructionTools libMyWlnuSelection libLPXKfactorTool 
+
+### Good Run List
+GRLDir  GoodRunsLists
+GRLFile data18_13TeV/20190708/data18_13TeV.periodAllYear_DetStatus-v105-pro22-13_Unknown_PHYS_StandardGRL_All_Good_25ns_Triggerno17e33prim.xml   data17_13TeV/20190708/data17_13TeV.periodAllYear_DetStatus-v105-pro22-13_Unknown_PHYS_StandardGRL_All_Good_25ns_Triggerno17e33prim.xml   data16_13TeV/20190708/data16_13TeV.periodAllYear_DetStatus-v105-pro22-13_Unknown_PHYS_StandardGRL_All_Good_25ns_WITH_IGNORES.xml   data15_13TeV/20190708/data15_13TeV.periodAllYear_DetStatus-v105-pro22-13_Unknown_PHYS_StandardGRL_All_Good_25ns.xml   
+
+GRLDir GoodRunsLists
+GRLFile data18_13TeV/20190219/physics_25ns_Triggerno17e33prim.xml
+PRWConfigFiles_FS dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16e.FS.v2/prw.merged.root PRW/PURW_DrellYan_mc16e.root PRW/SherpaDY_mc16e.root PRW/PURW_PI_mc16e.root PRW/Sherpa_2211_mc16e.root PRW/EFT_mc16e.root  PRW/PI_mc16e_new.root
+PRWConfigFiles_AF dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16e.AF.v2/prw.merged.root
+PRWActualMu_FS GoodRunsLists/data18_13TeV/20190318/physics_25ns_Triggerno17e33prim.actualMu.OflLumi-13TeV-010.root
+PRWActualMu_AF GoodRunsLists/data18_13TeV/20190318/physics_25ns_Triggerno17e33prim.actualMu.OflLumi-13TeV-010.root
+PRWLumiCalcFiles GoodRunsLists/data18_13TeV/20190318/ilumicalc_histograms_None_348885-364292_OflLumi-13TeV-010.root
+
+
+#BTagCDIPath xAODBTaggingEfficiency/13TeV/2019-21-13TeV-MC16-CDI-2019-10-07_v1.root
+
+ElectronCollectionName Electrons
+TruthElectronCollectionName STDMTruthElectrons
+MuonCollectionName Muons
+TruthMuonCollectionName STDMTruthMuons
+#JetCollectionName None
+JetCollectionName AntiKt4EMPFlowJets_BTagging201903
+LargeJetCollectionName None
+LargeJetSubstructure None
+TauCollectionName None
+PhotonCollectionName None
+
+MCGeneratorWeights Nominal
+TruthCollectionName TruthParticles
+TruthJetCollectionName None #AntiKt4TruthWZJets
+#TopPartonHistory ttbar
+TopParticleLevel False
+TruthBlockInfo False
+#PDFInfo Nominal
+
+ObjectSelectionName top::ObjectLoaderStandardCuts
+#OutputFormat top::EventSaverFlatNtuple
+OutputFormat top::CustomEventSaver
+OutputEvents SelectedEvents
+#OutputEvents AllEvents
+OutputFilename output.root
+PerfStats No
+
+#EgammaSystematicModel FULL_ETACORRELATED_v1
+#ElectronEfficiencySystematicModel COMBMCTOYS
+#ElectronEfficiencySystematicModelNToys 40
+#ElectronEfficiencySystematicModelToySeed 12345
+ElectronEfficiencySystematicModel SIMPLIFIED
+#Systematics AllElectrons,AllMuons
+EgammaSystematicModel FULL_ETACORRELATED_v1
+#EgammaSystematicModel 1NP_v1
+Systematics Nominal
+
+ElectronID MediumLH
+ElectronIDLoose LooseAndBLayerLH
+ElectronIsolationLoose None
+ElectronIsolation FCTight
+ApplyTightSFsInLooseTree     True
+UseElectronChargeIDSelection True
+#ElectronIDLoose LooseAndBLayerLH 
+#ElectronIsolation FCTight
+#ElectronIsolationLoose FCLoose
+
+MuonQuality HighPt
+MuonQualityLoose Loose
+MuonIsolation FCTightTrackOnly_FixedRad
+MuonIsolationLoose None # FCTightTrackOnly
+
+MuonDoExtraSmearingHighPt False
+MuonDoSmearing2stationHighPt False
+MuonCalibrationMode    correctData_IDMS
+
+# DoTight/DoLoose to activate the loose and tight trees
+# each should be one in: Data, MC, Both, False
+DoTight Both
+DoLoose Both
+DoSysts Tight
+
+UseAodMetaData True
+IsAFII False
+
+#BTaggingWP FixedCutBEff_77
+
+UseGlobalLeptonTriggerSF True
+GlobalTriggers 2015@2e12_lhloose_L12EM10VH,2mu10,mu18_mu8noL1,mu20_iloose_L1MU15_OR_mu50 2016@2e17_lhvloose_nod0,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 2017@2e24_lhvloose_nod0,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 2018@2e24_lhvloose_nod0,2e17_lhvloose_nod0_L12EM15VHI,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50
+
+GlobalTriggersLoose 2015@2e12_lhloose_L12EM10VH,2mu10,mu18_mu8noL1,mu20_iloose_L1MU15_OR_mu50 2016@2e17_lhvloose_nod0,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 2017@2e24_lhvloose_nod0,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 2018@2e24_lhvloose_nod0,2e17_lhvloose_nod0_L12EM15VHI,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50
+
+#GlobalTriggers 2015@2e12_lhloose_L12EM10VH,2mu10,mu18_mu8noL1,e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose,mu20_iloose_L1MU15_OR_mu50 2016@2e17_lhvloose_nod0,2mu14,mu22_mu8noL1,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50 2017@2e24_lhvloose_nod0,2mu14,mu22_mu8noL1,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50 2018@2e24_lhvloose_nod0,2e17_lhvloose_nod0_L12EM15VHI,2mu14,mu22_mu8noL1,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50
+
+#GlobalTriggersLoose 2015@2e12_lhloose_L12EM10VH,2mu10,mu18_mu8noL1,e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose,mu20_iloose_L1MU15_OR_mu50 2016@2e17_lhvloose_nod0,2mu14,mu22_mu8noL1,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50 2017@2e24_lhvloose_nod0,2mu14,mu22_mu8noL1,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50 2018@2e24_lhvloose_nod0,2e17_lhvloose_nod0_L12EM15VHI,2mu14,mu22_mu8noL1,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50
+
+#GlobalTriggers 2015@e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose,mu20_iloose_L1MU15_OR_mu50 2016@e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50 2017@e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50 2018@e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50
+#GlobalTriggersLoose 2015@e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose,mu20_iloose_L1MU15_OR_mu50 2016@e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50 2017@e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50 2018@e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0,mu26_ivarmedium_OR_mu50
+
+#ElectronTriggers 2015@2e12_lhloose_L12EM10VH,e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose 2016@2e17_lhvloose_nod0,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0 2017@2e24_lhvloose_nod0,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0 2018@2e24_lhvloose_nod0,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0
+ 
+#ElectronTriggersLoose 2015@2e12_lhloose_L12EM10VH,e24_lhmedium_L1EM20VH_OR_e60_lhmedium_OR_e120_lhloose 2016@2e17_lhvloose_nod0,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0 2017@2e24_lhvloose_nod0,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0 2018@2e24_lhvloose_nod0,e26_lhtight_nod0_ivarloose_OR_e60_lhmedium_nod0_OR_e140_lhloose_nod0
+
+#MuonTriggers 2015@2mu10,mu18_mu8noL1,mu20_iloose_L1MU15_OR_mu50 2016@2mu14,mu26_ivarmedium_OR_mu50 2017@2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50  2018@2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 
+
+#MuonTriggersLoose 2015@2mu10,mu18_mu8noL1,mu20_iloose_L1MU15_OR_mu50 2016@2mu14,mu26_ivarmedium_OR_mu50 2017@2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 2018@2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 
+
+
+
+########################
+### basic selection with mandatory cuts for reco level
+########################
+
+SUB BASIC
+INITIAL
+GRL
+GOODCALO
+PRIVTX
+
+########################
+### lepton trigger and offline cuts for reco-level selections
+########################
+
+
+SUB ELECTRONMUON
+. BASIC
+GTRIGDEC   
+EL_N 28000 >= 1
+MU_N 28000 >= 1
+NOBADMUON
+GTRIGMATCH
+DECORATE_SFs
+
+SUB DIELECTRON
+. BASIC
+GTRIGDEC 
+EL_N 28000 == 2
+MU_N 28000 == 0
+#MLLZ > 110000
+NOBADMUON
+GTRIGMATCH
+DECORATE_SFs
+
+
+SUB DIELECTRON_withmu
+. BASIC
+GTRIGDEC 
+EL_N 28000 == 2
+MU_N 28000 == 1
+NOBADMUON
+GTRIGMATCH
+DECORATE_SFs
+
+
+SUB DIMUON
+. BASIC
+GTRIGDEC
+EL_N 28000 == 0
+MU_N 28000 == 2
+#MLLZ > 110000
+NOBADMUON
+GTRIGMATCH
+DECORATE_SFs
+
+
+SELECTION mumuSelection
+. DIMUON
+SAVE
+
+SELECTION emu
+. ELECTRONMUON
+SAVE
+
+SELECTION eeSelection
+. DIELECTRON
+SAVE
+
+SELECTION eeSelection_withmuon
+. DIELECTRON_withmu
+SAVE
+
+

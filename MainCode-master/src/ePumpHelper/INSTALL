@@ -1,0 +1,49 @@
+The new ePump code depends on the ROOT, LHAPDF, and Eigen3 packages, before compiling the ePump code, please install ROOT, LHAPDF, and Eigen3 at first.
+
+For LHAPDF,
+
+Download page: [https://lhapdf.hepforge.org/downloads/](https://lhapdf.hepforge.org/downloads/)
+
+Installation:
+
+./configure --prefix=/path to install
+make -j16
+make install
+
+[IMPORTANT] Do not forget add the following line to your environment
+
+export LHAPDF_ROOT_DIR=/path to LHAPDF/
+
+For Eigen3,
+
+Download page: [https://gitlab.com/libeigen/eigen](https://gitlab.com/libeigen/eigen)
+
+Installation:
+
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=.
+make -j16
+make install
+
+The new ePump code also provides the Python interface, if you have installed the Python, you can turn on the Python flag from the CMakeLists.txt:
+set(USE_PYTHON ON)
+
+For compiling the ePump code, usage:
+
+mkdir build
+cd build
+cmake ..
+make -j install
+
+Add PATH and LD_LIBRARY_PATH to your environment
+
+export PATH=${PATH}:/path to ePumpAP/build/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/path to ePumpAP/build/lib
+
+If you turn on the Python flag, before using the Python interface, do not forget add the following lines to your PYTHONPATH
+
+export PYTHONPATH=$PYTHONPATH:/path to ePumpAP/build/bin
+
+
+

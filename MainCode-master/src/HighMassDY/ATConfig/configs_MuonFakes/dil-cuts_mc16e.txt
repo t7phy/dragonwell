@@ -1,0 +1,158 @@
+LibraryNames libTopEventSelectionTools libTopEventReconstructionTools libMyWlnuSelection libLPXKfactorTool 
+
+### Good Run List
+GRLDir  GoodRunsLists
+GRLFile data18_13TeV/20190318/physics_25ns_Triggerno17e33prim.xml
+
+PRWConfigFiles_FS dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16e.FS.v2/prw.merged.root PRW/PURW_DrellYan_mc16e.root PRW/SherpaDY_mc16e.root PRW/PURW_PI_mc16e.root PRW/Sherpa_2211_mc16e.root PRW/EFT_mc16e.root  PRW/PI_mc16e_new.root
+PRWConfigFiles_AF dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16e.AF.v2/prw.merged.root
+PRWActualMu_FS    GoodRunsLists/data18_13TeV/20190318/physics_25ns_Triggerno17e33prim.actualMu.OflLumi-13TeV-010.root
+PRWActualMu_AF    GoodRunsLists/data18_13TeV/20190318/physics_25ns_Triggerno17e33prim.actualMu.OflLumi-13TeV-010.root
+PRWLumiCalcFiles  GoodRunsLists/data18_13TeV/20190318/ilumicalc_histograms_None_348885-364292_OflLumi-13TeV-010.root
+
+
+
+ElectronCollectionName Electrons
+TruthElectronCollectionName STDMTruthElectrons
+MuonCollectionName Muons
+TruthMuonCollectionName STDMTruthMuons
+JetCollectionName AntiKt4EMPFlowJets_BTagging201903
+#JetCollectionName None
+LargeJetCollectionName None
+LargeJetSubstructure None
+TauCollectionName None
+PhotonCollectionName None
+
+TruthCollectionName TruthParticles
+TruthJetCollectionName None #AntiKt4TruthWZJets
+#TopPartonHistory ttbar
+TopParticleLevel False
+TruthBlockInfo False
+#PDFInfo Nominal
+
+#NEvents 500
+
+ObjectSelectionName top::ObjectLoaderStandardCuts
+#OutputFormat top::EventSaverFlatNtuple
+OutputFormat top::CustomEventSaver
+OutputEvents SelectedEvents
+OutputFilename output.root
+PerfStats No
+
+
+Systematics Nominal
+
+
+
+
+
+ElectronID MediumLH
+ElectronIDLoose LooseAndBLayerLH
+ElectronIsolationLoose None
+ElectronIsolation FCTight
+
+
+
+MuonQuality HighPt
+MuonQualityLoose Loose
+MuonIsolation FCTightTrackOnly_FixedRad
+MuonIsolationLoose None 
+Muond0Sig 20.0
+
+MuonDoExtraSmearingHighPt False
+MuonDoSmearing2stationHighPt False
+MuonCalibrationMode    correctData_IDMS
+
+
+# DoTight/DoLoose to activate the loose and tight trees
+# each should be one in: Data, MC, Both, False
+DoTight Both
+DoLoose Both
+DoSysts Tight
+
+UseAodMetaData True
+IsAFII False
+
+#BTaggingWP FixedCutBEff_77
+
+UseGlobalLeptonTriggerSF True
+GlobalTriggers 2015@2e12_lhloose_L12EM10VH,2mu10,mu18_mu8noL1,mu20_iloose_L1MU15_OR_mu50 2016@2e17_lhvloose_nod0,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 2017@2e24_lhvloose_nod0,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 2018@2e24_lhvloose_nod0,2e17_lhvloose_nod0_L12EM15VHI,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50
+
+GlobalTriggersLoose 2015@2e12_lhloose_L12EM10VH,2mu10,mu18_mu8noL1,mu20_iloose_L1MU15_OR_mu50 2016@2e17_lhvloose_nod0,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 2017@2e24_lhvloose_nod0,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50 2018@2e24_lhvloose_nod0,2e17_lhvloose_nod0_L12EM15VHI,2mu14,mu22_mu8noL1,mu26_ivarmedium_OR_mu50
+
+
+
+
+
+########################
+### basic selection with mandatory cuts for reco level
+########################
+
+SUB BASIC
+INITIAL
+GRL
+GOODCALO
+PRIVTX
+
+########################
+### lepton trigger and offline cuts for reco-level selections
+########################
+
+
+
+#SUB ELECTRONMUON
+#. BASIC
+#GTRIGDEC   
+#EL_N 28000 >= 1
+#MU_N 28000 >= 1
+#NOBADMUON
+#GTRIGMATCH
+#DECORATE_SFs
+
+#SUB DIELECTRON
+#. BASIC
+#GTRIGDEC 
+#EL_N 28000 == 2
+#MU_N 28000 == 0
+##MLLZ > 110000
+#NOBADMUON
+#GTRIGMATCH
+#DECORATE_SFs
+
+
+SUB DIELECTRON_withmu
+. BASIC
+GTRIGDEC 
+EL_N 28000 == 2
+MU_N 28000 == 1
+NOBADMUON
+GTRIGMATCH
+DECORATE_SFs
+
+
+#SUB DIMUON
+#. BASIC
+#GTRIGDEC
+#EL_N 28000 == 0
+#MU_N 28000 == 2
+##MLLZ > 110000
+#NOBADMUON
+#GTRIGMATCH
+#DECORATE_SFs
+
+
+#SELECTION mumuSelection
+#. DIMUON
+#SAVE
+
+#SELECTION emu
+#. ELECTRONMUON
+#SAVE
+
+#SELECTION eeSelection
+#. DIELECTRON
+#SAVE
+
+SELECTION eeSelection_withmuon
+. DIELECTRON_withmu
+SAVE

@@ -1,0 +1,79 @@
+In ePumpAP/example directory, some examples are provided for instructing how to prepare input files for ePump running.
+
+To run the PDF only update with C++ executable, usage,
+
+UpdatePDF test
+
+To run the PDF + alpha_s update with C++ executable, usage,
+
+UpdatePDF test testAlphaS
+
+####################################################################################################################################################
+
+Here is an instruction for using the Python interface of the new ePump code.
+
+An example is prepared in the following place:
+
+ePumpAP/src/ePumpHelper/PythonExt/UpdatePDFs.py
+
+First, the object needs to be initialized,
+
+ep = PyePump.PyePump()
+ep.Initialize("test")
+
+Here we provide a function to specify the draw list of LM scan plot. Note that the BaseName which is the name of your directory saving all .data and .theory files should be there,
+
+BaseName = "tabsCT18Am248_1164/"
+LMScanDrawList = [BaseName + "E160",
+                  BaseName + "E542",
+                  BaseName + "E545",
+                  BaseName + "E544",
+                  BaseName + "E514",
+                  BaseName + "E504",
+                  BaseName + "E147",
+                  BaseName + "E102",
+                  BaseName + "E101",
+                  BaseName + "E110",
+                  BaseName + "E248",]
+
+ep.InputLMScanDrawList(LMScanDrawList)
+
+The main function for PDF only update,
+
+ep.Update()
+
+The main function for PDF + alpha_s update. Note that this should be called after calling Update()
+
+ep.UpdateAlphaS("testAlphaS")
+
+The LM scan module for specific PDF flavor, x, and Q,
+
+# PDFLMScanModule(int flavor, double x, double Q, int isUpdate)
+ep.PDFLMScanModule(0, 0.01, 125.0, 0)
+ep.PDFLMScanModule(0, 0.01, 125.0, 1)
+
+The LM scan module for AlphaS,
+
+# UpdateAlphaSLMScanPDF(int flavor, double x, double Q)
+ep.UpdateAlphaSLMScanPDF(0, 0.01, 125.0)
+
+The correlation ellipse plot production between any observable you provide and alpha_s,
+
+# AlphaSObservableCorrelation(const char* name, int iPoint, const char* legend)
+ep.AlphaSObservableCorrelation(BaseName + "ggHiggsXsec", 0, "#sigma(gg #rightarrow H) [pb]")
+
+Other useful functions to obtain the meta output from the ePump,
+
+ep.GetOldTheory(BaseName + "ggHiggsXsec", 0)
+ep.GetNewTheory(BaseName + "ggHiggsXsec", 0)
+ep.GetOldPDFError(BaseName + "ggHiggsXsec", 0)
+ep.GetNewPDFError(BaseName + "ggHiggsXsec", 0)
+ep.GetOldPDFCorrelation(DataName1, DataName2, i, j)
+ep.GetNewPDFCorrelation(DataName1, DataName2, i, j)
+ep.GetOldChi2(DataName)
+ep.GetNewChi2(DataName)
+ep.GetOldAlphaS()
+ep.GetNewAlphaS()
+ep.GetOldAlphaSError()
+ep.GetNewAlphaSError()
+

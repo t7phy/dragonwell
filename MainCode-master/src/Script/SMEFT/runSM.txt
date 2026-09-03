@@ -1,0 +1,41 @@
+define p = p b b~
+generate p p > e+ e- QCD=2 QED=2
+output SMDrellYan
+launch -n run_Mass40_100
+set nevents 100000
+set pdlabel lhapdf
+set lhaid 14000
+set etal 5.0
+set mmll 40.0
+set mmllmax 100.0
+launch -n run_Mass100_250
+set mmll 100.0
+set mmllmax 250.0
+launch -n run_Mass250_400
+set mmll 250.0
+set mmllmax 400.0
+launch -n run_Mass400_500
+set mmll 400.0
+set mmllmax 500.0
+launch -n run_Mass500_700
+set mmll 500.0
+set mmllmax 700.0
+launch -n run_Mass700_900
+set mmll 700.0
+set mmllmax 900.0
+launch -n run_Mass900_1200
+set mmll 900.0
+set mmllmax 1200.0
+launch -n run_Mass1200_1800
+set mmll 1200.0
+set mmllmax 1800.0
+launch -n run_Mass1800_3000
+set mmll 1800.0
+set mmllmax 3000.0
+launch -n run_Mass3000_4500
+set mmll 3000.0
+set mmllmax 4500.0
+launch -n run_Mass4500_6000
+set mmll 4500.0
+set mmllmax 6000.0
+

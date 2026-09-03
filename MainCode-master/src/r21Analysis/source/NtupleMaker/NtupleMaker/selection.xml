@@ -1,0 +1,17 @@
+<lcgdict>
+
+  <!-- This file contains a list of all classes for which a dictionary
+              should be created. -->
+
+  <class name="xAODHelper" />
+  <class name="FunctionHelper" />
+  <class name="SelectionHelper" />
+  <class name="SelectionWZ" />
+  <class name="SkimToNtupleTriLep" />
+  <class name="SelectionWW" />
+  <class name="SkimToNtupleWWDiLep" />
+
+  <class name="SelectionFwdReco" />
+  <class name="SkimToNtupleFwdReco" />  
+ 
+</lcgdict>

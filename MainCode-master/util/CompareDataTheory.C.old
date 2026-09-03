@@ -1,0 +1,227 @@
+#include "Tools/Tools.h"
+
+using namespace std;
+
+int main(int argc, char** argv)
+{
+ double xbins[11] = {66, 71, 76, 81, 86, 91, 96, 101, 106, 111, 116};
+ TFile* DataFile = new TFile("/lustre/AtlUser/yfu/ATLASUnfoldingMCSample/rootfile/Data/True_MassBin10_Bayes.root");
+ TFile* TheoryFile[100];
+ TFile* TheoryCorrelationFile;
+
+ TH1D* DataPlot;
+ TH1D* DataError[100];
+ TH1D* MCTruthPlot;
+ TH1D* MCRecoPlot;
+ TH2D* DataCorrelation[100];
+ TH2D* DataCovariance[100];
+ TH2D* TotalDataCovariance;
+
+ TH1D* TheoryFZmass[100];
+ TH1D* TheoryBZmass[100];
+ TH1D* TheoryPlot[100];
+ TH1D* TheoryError[100];
+ TH2D* TheoryCovariance;
+ TH2D* TotalTheoryCovariance[100];
+
+
+
+
+//      Data       //
+ DataPlot = (TH1D *)DataFile->Get("Data_AFB");
+ MCTruthPlot = (TH1D *)DataFile->Get("MCTrue_AFB");
+ MCRecoPlot = (TH1D *)DataFile->Get("MCReco_AFB");
+ DataCorrelation[1] = (TH2D *)DataFile->Get("CorrelationMatrix_MCStat");
+ DataCorrelation[2] = (TH2D *)DataFile->Get("CorrelationMatrix_DataStat");
+ DataError[1] = (TH1D *)DataFile->Get("Unfolding_DataStatErr");
+ DataError[2] = (TH1D *)DataFile->Get("Unfolding_MCStatErr");
+
+ DataError[3] = (TH1D *)DataFile->Get("Unfolding_MethodErr");
+ DataError[4] = (TH1D *)DataFile->Get("Unfolding_SystematicErr");
+ DataError[5] = (TH1D *)DataFile->Get("Unfolding_ISOSTATErr");
+ DataError[6] = (TH1D *)DataFile->Get("Unfolding_ISOSYSErr");
+ DataError[7] = (TH1D *)DataFile->Get("Unfolding_TTVASTATErr");
+ DataError[8] = (TH1D *)DataFile->Get("Unfolding_TTVASYSErr");
+ DataError[9] = (TH1D *)DataFile->Get("Unfolding_RECOSTATErr");
+ DataError[10] = (TH1D *)DataFile->Get("Unfolding_RECOSYSErr");
+ DataError[11] = (TH1D *)DataFile->Get("Unfolding_TRIGSTATErr");
+ DataError[12] = (TH1D *)DataFile->Get("Unfolding_TRIGSYSErr");
+ DataError[13] = (TH1D *)DataFile->Get("Unfolding_ScaleCalibrationErr");
+ DataError[14] = (TH1D *)DataFile->Get("Unfolding_SmearCalibrationErr");
+
+ for(int i = 1; i <= 2; i++){
+   DataCovariance[i] = new TH2D((TString)"DataCovariance_" + (int)i, (TString)"DataCovariance_" + (int)i, 10, 1, 10, 10, 1, 10);
+   for(int ibinx = 0; ibinx < DataPlot->GetNbinsX(); ibinx++){
+     for(int ibiny = 0; ibiny < DataPlot->GetNbinsX(); ibiny++){
+       DataCovariance[i]->SetBinContent(ibinx + 1, ibiny + 1, DataCorrelation[i]->GetBinContent(ibinx + 1, ibiny + 1) * DataError[i]->GetBinContent(ibinx + 1) * DataError[i]->GetBinContent(ibiny + 1));
+     }
+   }
+ }
+ for(int i = 3; i <= 14; i++){
+   DataCovariance[i] = new TH2D((TString)"DataCovariance_" + (int)i, (TString)"DataCovariance_" + (int)i, 10, 1, 10, 10, 1, 10);
+   for(int ibinx = 0; ibinx < DataPlot->GetNbinsX(); ibinx++){
+     for(int ibiny = 0; ibiny < DataPlot->GetNbinsX(); ibiny++){
+       DataCovariance[i]->SetBinContent(ibinx + 1, ibiny + 1, 1.0 * DataError[i]->GetBinContent(ibinx + 1) * DataError[i]->GetBinContent(ibiny + 1));
+       cout<<DataCovariance[i]->GetBinContent(ibinx + 1, ibiny + 1)<<" ";
+     }
+     cout<<endl;
+   }
+ cout<<endl;
+ }
+
+ TotalDataCovariance = (TH2D *)DataCovariance[3]->Clone("TotalDataCovariance");
+ TotalDataCovariance->Reset();
+
+ for(int i = 1; i <= 14; i++){
+   TotalDataCovariance->Add(DataCovariance[i]);
+ }
+
+ DataError[15] = (TH1D *)DataFile->Get("Unfolding_IterationNumber");
+ DataError[16] = (TH1D *)DataFile->Get("Unfolding_Chi2_AFB_Iteration");
+ DataError[17] = (TH1D *)DataFile->Get("Unfolding_Chi2_Mass_Iteration");
+ DataError[18] = (TH1D *)DataFile->Get("Unfolding_DataStat_Iteration");
+ DataError[19] = (TH1D *)DataFile->Get("Unfolding_MethodErr_Iteration");
+ DataError[20] = (TH1D *)DataFile->Get("PseudoData_PassReco");
+ DataError[21] = (TH1D *)DataFile->Get("ReweightedTruth_PassTrue");
+ DataError[22] = (TH1D *)DataFile->Get("ReweightedTruth_AFB");
+ DataError[23] = (TH1D *)DataFile->Get("ReweightedReco_AFB");
+ DataError[24] = (TH1D *)DataFile->Get("PseudoData_UnfoldingAFB");
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+//      Theory      //
+ TheoryFile[1] = new TFile("/lustre/AtlUser/yfu/ATLASUnfoldingMCSample/rootfile/ResBos_FSR/MC_results.root");
+ TheoryFile[2] = new TFile("/lustre/AtlUser/yfu/ATLASUnfoldingMCSample/rootfile/ResBos_ZFitter_FSR/MC_results.root");
+ TheoryFile[3] = new TFile("/lustre/AtlUser/yfu/ATLASUnfoldingMCSample/rootfile/Pythia/NNPDF31_nnlo_as_0118_13TeV_Legacy_w321_y1/NNPDF_0000/JOB1/MC_results.root");
+ TheoryFile[4] = new TFile("/lustre/AtlUser/yfu/ATLASUnfoldingMCSample/rootfile/HERWIG/NNPDF31_nnlo_as_0118_13TeV_Legacy_w321_y1/NNPDF_0000/JOB1/MC_results.root");
+ TheoryFile[6] = new TFile("/lustre/AtlUser/yfu/ATLASUnfoldingMCSample/rootfile/ResBos/MC_results.root");
+
+ TheoryFZmass[1] = (TH1D *)TheoryFile[1]->Get("FZmass_CC");
+ TheoryBZmass[1] = (TH1D *)TheoryFile[1]->Get("BZmass_CC");
+ TheoryFZmass[1] = (TH1D *)TheoryFZmass[1]->Rebin(10, "FZmass_CC_1", xbins);
+ TheoryBZmass[1] = (TH1D *)TheoryBZmass[1]->Rebin(10, "BZmass_CC_1", xbins);
+ TheoryPlot[1] = (TH1D *)TheoryFZmass[1]->Clone((TString)"TheoryPlot_1");
+ TheoryPlot[1]->Reset();
+// AFBFunction(TheoryFZmass[1], TheoryBZmass[1], TheoryPlot[1]);
+ AFBFunction(TheoryBZmass[1], TheoryFZmass[1], TheoryPlot[1]);
+
+ TheoryFZmass[2] = (TH1D *)TheoryFile[2]->Get("FZmass_CC");
+ TheoryBZmass[2] = (TH1D *)TheoryFile[2]->Get("BZmass_CC");
+ TheoryFZmass[2] = (TH1D *)TheoryFZmass[2]->Rebin(10, "FZmass_CC_2", xbins);
+ TheoryBZmass[2] = (TH1D *)TheoryBZmass[2]->Rebin(10, "BZmass_CC_2", xbins);
+ TheoryPlot[2] = (TH1D *)TheoryFZmass[2]->Clone((TString)"TheoryPlot_2");
+ TheoryPlot[2]->Reset();
+// AFBFunction(TheoryFZmass[2], TheoryBZmass[2], TheoryPlot[2]);
+ AFBFunction(TheoryBZmass[2], TheoryFZmass[2], TheoryPlot[2]);
+
+ TheoryFZmass[3] = (TH1D *)TheoryFile[3]->Get("FZmass_CC");
+ TheoryBZmass[3] = (TH1D *)TheoryFile[3]->Get("BZmass_CC");
+ TheoryFZmass[3] = (TH1D *)TheoryFZmass[3]->Rebin(10, "FZmass_CC_3", xbins);
+ TheoryBZmass[3] = (TH1D *)TheoryBZmass[3]->Rebin(10, "BZmass_CC_3", xbins);
+ TheoryPlot[3] = (TH1D *)TheoryFZmass[3]->Clone((TString)"TheoryPlot_3");
+ TheoryPlot[3]->Reset();
+ AFBFunction(TheoryFZmass[3], TheoryBZmass[3], TheoryPlot[3]);
+
+ TheoryFZmass[4] = (TH1D *)TheoryFile[4]->Get("FZmass_CC");
+ TheoryBZmass[4] = (TH1D *)TheoryFile[4]->Get("BZmass_CC");
+ TheoryFZmass[4] = (TH1D *)TheoryFZmass[4]->Rebin(10, "FZmass_CC_4", xbins);
+ TheoryBZmass[4] = (TH1D *)TheoryBZmass[4]->Rebin(10, "BZmass_CC_4", xbins);
+ TheoryPlot[4] = (TH1D *)TheoryFZmass[4]->Clone((TString)"TheoryPlot_4");
+ TheoryPlot[4]->Reset();
+ AFBFunction(TheoryFZmass[4], TheoryBZmass[4], TheoryPlot[4]);
+
+ TheoryPlot[5] = MCTruthPlot;
+
+ TheoryFZmass[6] = (TH1D *)TheoryFile[6]->Get("FZmass_CC");
+ TheoryBZmass[6] = (TH1D *)TheoryFile[6]->Get("BZmass_CC");
+ TheoryFZmass[6] = (TH1D *)TheoryFZmass[6]->Rebin(10, "FZmass_CC_6", xbins);
+ TheoryBZmass[6] = (TH1D *)TheoryBZmass[6]->Rebin(10, "BZmass_CC_6", xbins);
+ TheoryPlot[6] = (TH1D *)TheoryFZmass[6]->Clone((TString)"TheoryPlot_6");
+ TheoryPlot[6]->Reset();
+ AFBFunction(TheoryFZmass[6], TheoryBZmass[6], TheoryPlot[6]);
+
+ TheoryCorrelationFile = new TFile("/lustre/AtlUser/yfu/ATLASUnfoldingMCSample/rootfile/Pythia/AFB_PDFError_MonteCarlo.root");
+ TheoryCovariance = (TH2D *)TheoryCorrelationFile->Get("CovMatrix_PDFError");
+
+ TFile *TheoryCT10PDFUncFile = new TFile("/lustre/AtlUser/yfu/pku_resbos/CT14HERA2NNLO_13TeV/rootfile/Pythia/rootfile/AFB_PDFError_Symmetry.root");
+ TH1D *TheoryCT10PDFUnc = (TH1D *)TheoryCT10PDFUncFile->Get("AFB_PDFError");
+
+ double TheoryStatCov = 0.0;
+ double TheoryPDFCov = 0.0;
+ for(int i = 1; i <= 6; i++){
+   TotalTheoryCovariance[i] = (TH2D *)TheoryCovariance->Clone((TString)"TotalTheoryCovariance_" + (int)i);
+   TotalTheoryCovariance[i]->Reset();
+   for(int ibinx = 0; ibinx < DataPlot->GetNbinsX(); ibinx++){
+     for(int ibiny = 0; ibiny < DataPlot->GetNbinsX(); ibiny++){
+
+       if(ibinx == ibiny) TheoryStatCov = TheoryPlot[i]->GetBinError(ibinx + 1) * TheoryPlot[i]->GetBinError(ibiny + 1);
+       if(ibinx != ibiny) TheoryStatCov = 0.0;
+
+       TheoryPDFCov = TheoryCovariance->GetBinContent(ibinx + 1, ibiny + 1);
+       if(i == 1 || i == 2 || i == 6) TheoryPDFCov = 0.0;
+       if(i == 5){
+          if(ibinx == ibiny) TheoryPDFCov = TheoryCT10PDFUnc->GetBinContent(ibinx + 1) * TheoryCT10PDFUnc->GetBinContent(ibiny + 1);
+          if(ibinx != ibiny) TheoryPDFCov = 0;
+       }
+       TotalTheoryCovariance[i]->SetBinContent(ibinx + 1, ibiny + 1, TheoryPDFCov + TheoryStatCov);
+     }
+   }
+ cout<<endl;
+ }
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ TFile* writefile = new TFile("CompareResults.root", "RECREATE");
+ TH2D* TotalCovariance[100];
+ TH2D* TotalInverseCovariance[100];
+ TH2D* TotalDataCorrelation[100];
+ TH2D* TotalTheoryCorrelation[100];
+ TH1D* SavedTheoryPlot[100];
+ TH1D* SavedDataPlot = (TH1D *)DataPlot->Clone("SavedDataPlot");
+ TH1D* DataTotalError = (TH1D *)DataPlot->Clone("DataTotalError");
+ DataTotalError->Reset();
+ TH1D* Ratio[100];
+
+ double Chi2[100];
+ double Sigma[100];
+
+ double DataSysErr2 = 0.0;
+ double DataStaErr2 = 0.0;
+ for(int ibin = 0; ibin < DataError[1]->GetNbinsX(); ibin++){
+   DataSysErr2 = 0.0;
+   for(int i = 1; i <= 14; i++){
+     DataSysErr2 += DataError[i]->GetBinContent(ibin + 1) * DataError[i]->GetBinContent(ibin + 1);
+//     cout<<i<<": "<<DataError[i]->GetBinContent(ibin + 1)<<" ";
+   }
+   cout<<endl;
+   DataTotalError->SetBinContent(ibin + 1, sqrt(DataSysErr2));
+   DataStaErr2 = DataPlot->GetBinError(ibin + 1) * DataPlot->GetBinError(ibin + 1);
+//   cout<<"Total: "<<sqrt(DataStaErr2 + DataSysErr2)<<" Sta: "<<sqrt(DataStaErr2)<<" Sys: "<<sqrt(DataSysErr2)<<endl;
+   SavedDataPlot->SetBinError(ibin + 1, sqrt(DataSysErr2 + DataStaErr2));
+ }
+
+ for(int i = 1; i <= 5; i++){
+   TotalCovariance[i] = (TH2D *)TotalTheoryCovariance[i]->Clone((TString)"TotalCovariance_" + (int)i);
+   TotalInverseCovariance[i] = new TH2D((TString)"TotalInverseCovariance_" + (int)i, (TString)"TotalInverseCovariance_" + (int)i, 10, 1, 10, 10, 1, 10);
+   TotalDataCorrelation[i] = new TH2D((TString)"TotalDataCorrelation_" + (int)i, (TString)"TotalDataCorrelation_" + (int)i, 10, 1, 10, 10, 1, 10);
+   TotalTheoryCorrelation[i] = new TH2D((TString)"TotalTheoryCorrelation_" + (int)i, (TString)"TotalTheoryCorrelation_" + (int)i, 10, 1, 10, 10, 1, 10);
+   SavedTheoryPlot[i] = (TH1D *)TheoryPlot[i]->Clone((TString)"SavedTheoryPlot_" + (int)i);
+   Ratio[i] = (TH1D *)DataPlot->Clone((TString)"Ratio_" + (int)i);
+   Ratio[i]->Divide(TheoryPlot[i]);
+
+   TotalCovariance[i]->Add(TotalDataCovariance);
+
+//   CalculateInverseMatrix(TotalCovariance[i], TotalInverseCovariance[i]);
+   ReverseMatrix(TotalCovariance[i], TotalInverseCovariance[i]);
+   Chi2[i] = CalculateChi2(DataPlot, TheoryPlot[i], TotalInverseCovariance[i]);
+   Sigma[i] = TranslateChi2ToGaussSigma(Chi2[i], 10);
+   cout<<"Theory No."<<i<<" Chi2 = "<<Chi2[i]<<" "<<Sigma[i]<<"Sigma"<<endl;
+ }
+
+ writefile->cd();
+ writefile->Write();
+ writefile->Close();
+ return 1;
+}

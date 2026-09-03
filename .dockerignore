@@ -1,0 +1,16 @@
+.git
+.agents
+.codex
+build
+**/build
+**/.git
+**/__pycache__
+**/*.o
+**/*.a
+**/*.so
+**/*.pcm
+**/*.pyc
+new_fitting_code_251105.pdf
+Config.yml
+DataList.yml
+Parameters.yml

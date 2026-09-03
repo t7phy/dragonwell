@@ -1,0 +1,149 @@
+#!/bin/bash
+# Given a .new file and an .up file with alpha_s values and coefficients
+# of N eigenvector PDF sets, creates N .new files and runs the fitting
+# package to generate .pds files
+# Usage:
+# ev2pds fit_exe new_file up_file
+#
+# Pavel Nadolsky, May 2, 2012
+
+#======================================================================
+#Configurable parameters
+
+WORKDIR=$PWD
+
+doThread=1
+
+#logfile to dump the output from the fitting executable; or /dev/stdout
+#to print to the screen
+LOGFILE='ev2pds.log'
+#LOGFILE='/dev/stdout'
+
+#======================================================================
+# MAIN code 
+#======================================================================
+
+# If no arguments are given, simply print help on the script usage
+ [ -z "$1" ] &&  
+ {
+ echo "A script to generate .pds files for N PDF eigenvector sets"
+ echo "from a .new file and an .up file by running a fitting executable"
+ echo "N times"
+ echo $'Usage: ev2pds fit_exe new_file up_file [lfit]'
+ echo 'lfit is optional. Set lfit=0 (default) or -1'
+ echo 'to compute .plt+.dta files (slow) or only .plt files (fast)'
+ exit
+ };
+
+# Print error messages if not enough arguments
+ [ -z "$2" ] &&
+ { echo "ev2pds: .new and .up files are not specified"
+   exit
+ }
+
+ [ -z "$3" ] &&
+ { echo "ev2pds: .up file is not specified"
+   exit
+ }
+
+ FITEXE=$1
+ NEWFILE=$2
+ UPFILE=$3
+
+ LFIT=0
+ [ -z "$4" ] || LFIT=$4 
+
+# Deterimne the numbers of the line with the fit name, Lfit, alpha_s(MZ), 
+# BP and CP coefficients
+# Note: with exception to the line with the fit ID, 
+# the line numbers correspond to the preceding comments, not to 
+# the lines with the values themselves
+ RUNID=$(nl -ba -w6 $NEWFILE |grep -i $"'1 Run ID:" |cut -c1-6)
+ ALFAID=$(nl -ba -w6 $NEWFILE |grep -i $"Qalfa" |cut -c1-6)
+ LFITID=$(nl -ba -w6 $NEWFILE |grep -i $"'1 Lfit" |cut -c1-6)
+ BPID=$(nl -ba -w6 $NEWFILE |grep -i $"(BP) -gfun-" |cut -c1-6)
+ CPID=$(nl -ba -w6 $NEWFILE |grep -i $"(CP) --" |cut -c1-6)
+
+ #Length of fitinp
+ NEWLEN=($(wc -l $NEWFILE))
+
+# List of line numbers beginning with Alfa in .up file
+ ALFAUPIDS=$(nl -ba -w6 $UPFILE |grep -i $"Alfa" |cut -c1-6)
+
+# The basename of .new file
+NEWBASE=$(basename $NEWFILE new)
+
+# Cleanup before the main loop
+[ -f $LOGFILE ] && rm $LOGFILE
+
+echo 'RUNID, ALFAID, LFITID, BPID, CPID'
+echo $RUNID, $ALFAID, $LFITID, $BPID, $CPID
+
+# Main loop
+# For each PDF set in the .up file, build fitinp and run FITEXE
+ iset=0;
+ for ialpha in $ALFAUPIDS; do
+# for ialpha in 11; do
+     echo 'Generating .pds file for the PDF set' $iset
+
+     if [ $iset -le 9 ]; then
+         NEWINP=${NEWBASE}0${iset}.inp
+     else
+         NEWINP=${NEWBASE}${iset}.inp
+     fi
+
+     head -n $((RUNID-1)) $NEWFILE > ${NEWINP}
+     if [ $iset -le 9 ]; then
+	 echo $"'1 Run ID:                   :'   '"$NEWBASE"0"$iset$"'  '"$NEWBASE"0"$iset$"'" >> ${NEWINP}
+     else
+	 echo $"'1 Run ID:                   :'   '"$NEWBASE$iset$"'  '"$NEWBASE$iset$"'" >> ${NEWINP}
+     fi
+
+     head -n $ALFAID $NEWFILE |tail -n $((ALFAID-RUNID)) >> ${NEWINP} 
+     head -n $((ialpha+1)) $UPFILE |tail -n 1 >> ${NEWINP}
+     head -n $LFITID $NEWFILE |tail -n $((LFITID-ALFAID-1)) >> ${NEWINP}
+     echo $" "$LFIT" ""$(head -n 15 $NEWFILE |tail -n 1 |cut -c8-90)" >> ${NEWINP}
+
+
+     #write BP coefficients
+     NBP=7; #number of lines with BP coefficients
+     head -n $BPID $NEWFILE |tail -n $((BPID-LFITID-1)) >> ${NEWINP}
+     head -n $((ialpha+1+NBP)) $UPFILE |tail -n $NBP >> ${NEWINP}
+
+     #write CP coefficients
+     NCP=5; #number of lines with CP coefficients
+     head -n $CPID $NEWFILE |tail -n $((CPID-BPID-NBP)) >> ${NEWINP}
+     head -n $((ialpha+1+NBP+NCP)) $UPFILE |tail -n $NCP >> ${NEWINP}
+
+     tail -n $((NEWLEN-CPID-NCP)) $NEWFILE >> ${NEWINP}
+
+     if [ $doThread -eq 0 ]; then
+         nice $FITEXE ${NEWINP} >> $LOGFILE
+     elif [ $doThread -eq 1 ]; then
+         echo "#!/bin/bash --login" > job${iset}.sh
+         echo "#SBATCH --job-name=cp18h_12b   # job name" >> job${iset}.sh
+         echo "#SBATCH --nodes=1               # total number of nodes" >> job${iset}.sh
+         echo "#SBATCH --ntasks-per-node=1     # total number of tasks requested" >> job${iset}.sh
+         echo "#SBATCH --cpus-per-task=1       # total number of tasks requested" >> job${iset}.sh
+         echo "#SBATCH --threads-per-core=1    # one core each thread" >> job${iset}.sh
+         echo "#SBATCH --mem=10G            # job memory limit" >> job${iset}.sh
+         echo "#SBATCH --time=0:20:00             # run time (hh:mm:ss) - 3:00:00 hours" >> job${iset}.sh
+         echo "#SBATCH --output=%x-%j.out      # queue (partition)" >> job${iset}.sh
+         echo "source ~/setup.sh" >> job${iset}.sh
+         echo "cd ${WORKDIR}" >> job${iset}.sh
+         echo "$FITEXE ${NEWINP} > ${NEWINP%%.inp}.con" >> job${iset}.sh
+         chmod +x job${iset}.sh
+         sbatch job${iset}.sh
+     fi
+
+     iset=$((iset+1));
+
+     echo ' ialpha, ALFAUPIDS, iset'
+     echo $ialpha, $ALFAUPIDS, $iset
+
+ done #for ialpha 
+
+
+
+
+

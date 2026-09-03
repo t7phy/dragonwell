@@ -1,0 +1,35 @@
+QCDParameter:
+  NFlavor: 5
+  EvolveOrder: 3
+  HardOrder: 3
+  AlphaSOrder: 3
+  mc: 1.3
+  mb: 4.75
+  mt: 172.0
+  Qini: 1.295
+  AlphaS: 0.118
+  AlphaS_Q0: 91.19
+  Evolution: Hoppet #Hoppet/APFEL/APFELxx
+  EvolutionOption: Default #Default/QED/smallx
+LMPenalty:
+  - penalty: [1, ratioPDF, [1], [10.0, 2.0, 0.2, 1e-8]]
+  - penalty: [2, ratioPDF, [1], [10.0, 1.8, 0.4, 1e-5]]
+  - penalty: [3, LargeCoefficient, [1], [0.01]]
+  - penalty: [4, SystematicShift, [504, 25, 514, 23], [0.5, 0.5]]
+PDFInput:
+  PDFInputType: None #None/CTEQ/LHAPDF
+  PDFInput: CT18NNLO
+  PDFiSet: 0
+Algorithm: 
+  Name: Migrad #Simplex/Migrad/Minimize/Fumili...
+  MaxCall: 100000
+  Tolerance: 1e-6
+  LFit: 30
+Thread:
+  nDISThread: 55
+  nVBPThread: 15
+ErrorSet:
+  dmeasTol: 0.008
+  Tolerance: 100.0
+  Tier2Type: CTEQ
+  CalcLevel: Full #PDFOnly/Full

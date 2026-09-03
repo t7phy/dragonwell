@@ -1,0 +1,10 @@
+Universe                          = vanilla 
+getenv                            = true
+Executable                        = submit_WMinus.sh
+Input                             = /dev/null
+Output                            = JOBINDEX.$(ClusterId).out
+Error                             = JOBINDEX.$(ClusterId).err
+Log                               = JOBINDEX.$(ClusterId).log
+Concurrency_Limits                = DISK_T3WORK3:30
++IsBypassJob                      = True
+Queue

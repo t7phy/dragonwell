@@ -1,0 +1,41 @@
+define p = p b b~
+generate p p > e- ve~ QCD=2 QED=2
+output SMWMinus
+launch -n run_Mass40_100
+set nevents 100000
+set pdlabel lhapdf
+set lhaid 14000
+set etal 5.0
+set mmnl 40.0
+set mmnlmax 100.0
+launch -n run_Mass100_250
+set mmnl 100.0
+set mmnlmax 250.0
+launch -n run_Mass250_400
+set mmnl 250.0
+set mmnlmax 400.0
+launch -n run_Mass400_500
+set mmnl 400.0
+set mmnlmax 500.0
+launch -n run_Mass500_700
+set mmnl 500.0
+set mmnlmax 700.0
+launch -n run_Mass700_900
+set mmnl 700.0
+set mmnlmax 900.0
+launch -n run_Mass900_1200
+set mmnl 900.0
+set mmnlmax 1200.0
+launch -n run_Mass1200_1800
+set mmnl 1200.0
+set mmnlmax 1800.0
+launch -n run_Mass1800_3000
+set mmnl 1800.0
+set mmnlmax 3000.0
+launch -n run_Mass3000_4500
+set mmnl 3000.0
+set mmnlmax 4500.0
+launch -n run_Mass4500_6000
+set mmnl 4500.0
+set mmnlmax 6000.0
+

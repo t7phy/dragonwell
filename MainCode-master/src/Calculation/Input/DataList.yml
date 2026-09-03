@@ -1,0 +1,551 @@
+GlobalPath:
+  data: /mnt/home/fuyao3/FittingCode/da/data2021.0324/
+  applgrid: /mnt/home/fuyao3/FittingCode/ApplGridtables/
+  fastnlo: /mnt/home/fuyao3/FittingCode/fastNLOtables/
+DataInformation:
+  LHCb7ZWrap: #245
+    Path: LHCb7ZWrap
+    DataType: DrellYan
+    CalcMode: ApplGrid
+    Collider: LHC
+    subType: LHCb7ZWrap
+    DataID: 245
+    ApplGrid:
+      - 245_1.root
+      - 245_2.root
+      - 245_3.root
+    ApplRange:
+      - [1, 1, 17]
+    FastNLO:
+    KFactor: [5, 8]
+    Systematic:
+    Normalization:
+  LHCb8Zeer: #246
+    Path: LHCb8Zeer
+    DataType: DrellYan
+    CalcMode: ApplGrid
+    Collider: LHC
+    subType: LHCb8Zeer
+    DataID: 246
+    ApplGrid:
+      - 246_1_KP_2018.1010.root
+    ApplRange:
+      - [1, 1, 17]
+    FastNLO:
+    KFactor: [6, 8]
+    Systematic:
+    Normalization:
+  CMS8Wxa: #249
+    Path: CMS8Wxa
+    DataType: DrellYan
+    CalcMode: ApplGrid
+    Collider: LHC
+    subType: CMS8Wxa
+    DataID: 249
+    ApplGrid:
+      - 249_Wplus_applgrid_Pt25_xfitter_2018.0618.root
+      - 249_Wminus_applgrid_Pt25_xfitter_2018.0618.root
+    ApplRange:
+    FastNLO:
+    KFactor: [9]
+    Systematic:
+    Normalization:
+  LHCb8WZ: #250
+    Path: LHCb8WZ
+    DataType: DrellYan
+    CalcMode: ApplGrid
+    Collider: LHC
+    subType: LHCb8WZ
+    DataID: 250
+    ApplGrid:
+      - 250_1.root
+      - 250_2.root
+      - 250_3.root
+    ApplRange:
+    FastNLO:
+    KFactor: [5, 10]
+    Systematic:
+    Normalization:
+  ATL8ZpT: #253
+    Path: ATL8ZpT
+    DataType: DrellYan
+    CalcMode: ApplGrid
+    Collider: LHC
+    subType: ATL8ZpT
+    DataID: 253
+    ApplGrid:
+      - 253_4.root
+      - 253_5.root
+      - 253_6.root
+    ApplRange:
+    FastNLO:
+    KFactor: [6]
+    Systematic:
+      - [0, 0, 0]
+      - [1, 100, 1]
+    Normalization:
+  ATL7jtR6u: #544
+    Path: ATL7jtR6u
+    DataType: Jet
+    CalcMode: ApplGrid
+    Collider: LHC
+    subType: ATL7jtR6u
+    DataID: 544
+    ApplGrid:
+      - 510_1.root
+      - 510_2.root
+      - 510_3.root
+      - 510_4.root
+      - 510_5.root
+      - 510_6.root
+    ApplRange:
+    FastNLO:
+    KFactor: [5]
+    Systematic:
+      - [0, 0, 0]
+      - [1, 73, 1]
+    Normalization:
+  CMS7jtR7y6: #542
+    Path: CMS7jtR7y6
+    DataType: Jet
+    CalcMode: FastNLO
+    Collider: LHC
+    subType: CMS7jtR7y6
+    DataID: 542
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+      - fnl2332e_v23_fix_I1298810.tab
+    KFactor: [6]
+    Systematic:
+      - [0, 0, 0]
+      - [1, 24, 1]
+    Normalization:
+  CMS8jtR7: #545
+    Path: CMS8jtR7
+    DataType: Jet
+    CalcMode: FastNLO
+    Collider: LHC
+    subType: CMS8jtR7
+    DataID: 545
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+      - fnl3332_I1487277.tab
+    KFactor: [3]
+    Systematic:
+      - [0, 0, 0]
+      - [1, 27, 1]
+    Normalization:
+  CMS8pTtyt: #573
+    Path: CMS8pTtyt
+    DataType: Jet
+    CalcMode: FastNLO
+    Collider: LHC
+    subType: CMS8pTtyt
+    DataID: 573
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+      - LHC8-173.3-PTavt_Yavt-0.00-0.35-nnlo.tab
+      - LHC8-173.3-PTavt_Yavt-0.35-0.85-nnlo.tab
+      - LHC8-173.3-PTavt_Yavt-0.85-1.45-nnlo.tab
+      - LHC8-173.3-PTavt_Yavt-1.45-2.50-nnlo.tab
+    KFactor:
+    Systematic:
+    Normalization:
+  ATL8ttcoma: #580
+    Path: ATL8ttcoma
+    DataType: Jet
+    CalcMode: FastNLO
+    Collider: LHC
+    subType: ATL8ttcoma
+    DataID: 580
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+      - LHC8-PTavt-MT2-173_3-bin1.tab
+      - LHC8-Mtt-HT4-173_3-bin1.tab
+    KFactor:
+    Systematic:
+    Normalization:
+  cdf2jtCor2: #504
+    Path: cdf2jtCor2
+    DataType: Jet
+    CalcMode: FastNLO
+    Collider: Tev
+    subType: cdf2jtCor2
+    DataID: 504
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+      - fnt2007midp.tab
+    KFactor:
+    Systematic:
+    Normalization:
+  d02jtCor2: #514
+    Path: d02jtCor2
+    DataType: Jet
+    CalcMode: FastNLO
+    Collider: Tev
+    subType: d02jtCor2
+    DataID: 514
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+      - fnt2009midp.tab
+    KFactor:
+    Systematic:
+    Normalization:
+  HERAIpII: #160
+    Path: HERAIpII
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: HERAIpII
+    DataID: 160
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization:
+  BcdF2pCor: #101
+    Path: BcdF2pCor
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider: 
+    subType: BcdF2pCor
+    DataID: 101
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization: [[71, N71], [0.9676, 0.1, 1.0]]
+  BcdF2dCor: #102
+    Path: BcdF2dCor
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: BcdF2dCor
+    DataID: 102
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization: [[71, N71], [0.9676, 1.0, 0.0]]
+  NmcRatCor: #104
+    Path: NmcRatCor
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: NmcRatCor
+    DataID: 104
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization:
+  cdhswf2: #108
+    Path: cdhswf2
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: cdhswf2
+    DataID: 108
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization: [[72, N72], [1.0137, 0.1, 1.0]]
+  cdhswf3: #109
+    Path: cdhswf3
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: cdhswf3
+    DataID: 109
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization: [[72, N72], [1.0137, 1.0, 0.0]]
+  ccfrf2.mi: #110
+    Path: ccfrf2.mi
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: ccfrf2.mi
+    DataID: 110
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization: [[73, N73], [1.0290, 0.1, 1.0]]
+  ccfrf3.md: #111
+    Path: ccfrf3.md
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: ccfrf3.md
+    DataID: 111
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization: [[73, N73], [1.0290, 1.0, 0.0]]
+  NuTvNuChXN: #124
+    Path: NuTvNuChXN
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: NuTvNuChXN
+    DataID: 124
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization:
+  NuTvNbChXN: #125
+    Path: NuTvNbChXN
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: NuTvNbChXN
+    DataID: 125
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization: 
+  CcfrNuChXN: #126
+    Path: CcfrNuChXN
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: CcfrNuChXN
+    DataID: 126
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization: 
+  CcfrNbChXN: #127
+    Path: CcfrNbChXN
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: CcfrNbChXN
+    DataID: 127
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization: 
+  Hn+9900x0b: #145
+    Path: Hn+9900x0b
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: Hn+9900x0b
+    DataID: 145
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization:
+  Hn1X0c: #147
+    Path: Hn1X0c
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: Hn1X0c
+    DataID: 147
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization:
+  H1FL10: #169
+    Path: H1FL10
+    DataType: DIS
+    CalcMode: CTEQ
+    Collider:
+    subType: H1FL10
+    DataID: 169
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization:
+  e605: #201
+    Path: e605
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: e605
+    DataID: 201
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor: [2]
+    Systematic:
+    Normalization:
+  e866f: #203
+    Path: e866f
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: e866f
+    DataID: 203
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor: [2]
+    Systematic:
+    Normalization:
+  e866ppxf: #204
+    Path: e866ppxf
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: e866ppxf
+    DataID: 204
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor: [2]
+    Systematic:
+    Normalization:
+  cdfLasy: #225
+    Path: cdfLasy
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: cdfLasy
+    DataID: 225
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization:
+  cdfLasy2: #227
+    Path: cdfLasy2
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: cdfLasy2
+    DataID: 227
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor: 
+    Systematic:
+    Normalization:
+  d02Masy1: #234
+    Path: d02Masy1
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: d02Masy1
+    DataID: 234
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor: 
+    Systematic:
+    Normalization:
+  ZyD02a: #260
+    Path: ZyD02a
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: ZyD02a
+    DataID: 260
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor: [2]
+    Systematic:
+    Normalization:
+  ZyCDF2: #261
+    Path: ZyCDF2
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: ZyCDF2
+    DataID: 261
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor: [2]
+    Systematic:
+    Normalization:
+  CMS7Masy2: #266
+    Path: CMS7Masy2
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: CMS7Masy2
+    DataID: 266
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization:
+  CMS7Easy: #267
+    Path: CMS7Easy
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: CMS7Easy
+    DataID: 267
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor: 
+    Systematic:
+    Normalization:
+  ATL7_WZ: #268
+    Path: ATL7_WZ
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: ATL7_WZ
+    DataID: 268
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor: [3]
+    Systematic:
+    Normalization:
+  d02Easy5: #281
+    Path: d02Easy5
+    DataType: DrellYan
+    CalcMode: CTEQ_DY
+    Collider:
+    subType: d02Easy5
+    DataID: 281
+    ApplGrid:
+    ApplRange:
+    FastNLO:
+    KFactor:
+    Systematic:
+    Normalization:
+

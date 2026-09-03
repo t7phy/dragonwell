@@ -1,0 +1,14 @@
+/build/
+/cmake-build-*/
+/*.sif
+
+# Runtime inputs are intentionally maintained outside the code repository.
+/Config.yml
+/DataList.yml
+/Parameters.yml
+
+.DS_Store
+*~
+*.swp
+*.swo
+*.pcm

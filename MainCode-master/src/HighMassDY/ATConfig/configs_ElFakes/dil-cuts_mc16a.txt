@@ -1,0 +1,158 @@
+LibraryNames libTopEventSelectionTools libTopEventReconstructionTools libMyWlnuSelection libLPXKfactorTool 
+
+### Good Run List
+GRLDir  GoodRunsLists
+GRLFile data15_13TeV/20170619/physics_25ns_21.0.19.xml data16_13TeV/20180129/physics_25ns_21.0.19.xml
+
+
+PRWConfigFiles_FS dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16a.FS.v2/prw.merged.root PRW/PURW_PI_mc16a.root PRW/SherpaDY_mc16a.root PRW/Sherpa_2211_mc16a.root PRW/EFT_mc16a.root PRW/PURW_DrellYan_mc16a.root PRW/PI_mc16a_new.root
+PRWConfigFiles_AF dev/AnalysisTop/PileupReweighting/user.iconnell.Top.PRW.MC16a.AF.v2/prw.merged.root
+PRWLumiCalcFiles GoodRunsLists/data15_13TeV/20170619/PHYS_StandardGRL_All_Good_25ns_276262-284484_OflLumi-13TeV-008.root GoodRunsLists/data16_13TeV/20180129/PHYS_StandardGRL_All_Good_25ns_297730-311481_OflLumi-13TeV-009.root
+   
+
+ElectronCollectionName Electrons
+TruthElectronCollectionName STDMTruthElectrons
+MuonCollectionName Muons
+TruthMuonCollectionName STDMTruthMuons
+JetCollectionName AntiKt4EMPFlowJets_BTagging201903
+LargeJetCollectionName None
+LargeJetSubstructure None
+TauCollectionName None
+PhotonCollectionName None
+
+#MCGeneratorWeights Nominal
+
+#NEvents 500
+
+TruthCollectionName TruthParticles
+TruthJetCollectionName None
+#TopPartonHistory ttbar
+TopParticleLevel False
+TruthBlockInfo False
+PDFInfo False
+
+ObjectSelectionName top::ObjectLoaderStandardCuts
+#OutputFormat top::EventSaverFlatNtuple
+OutputFormat top::CustomEventSaver
+OutputEvents SelectedEvents
+OutputFilename output.root
+PerfStats No
+
+#ElectronEfficiencySystematicModel SIMPLIFIED
+
+Systematics Nominal
+
+ElectronID MediumLH
+ElectronIDLoose LooseAndBLayerLH 
+ElectronIsolation FCTight
+ElectronIsolationLoose None
+
+MuonQuality HighPt
+MuonQualityLoose Loose
+MuonIsolation FCTightTrackOnly_FixedRad
+MuonIsolationLoose None # FCTightTrackOnly
+
+DoTight Both
+DoLoose Both
+DoSysts Tight
+
+UseAodMetaData True
+IsAFII False
+
+
+
+
+
+
+########################
+### basic selection with mandatory cuts for reco level
+########################
+
+SUB BASIC
+INITIAL
+GRL
+GOODCALO
+PRIVTX
+
+########################
+### lepton trigger and offline cuts for reco-level selections
+########################
+
+
+SUB ELECTRONMUON
+. BASIC
+#GTRIGDEC   
+TRIGDEC HLT_e26_lhvloose_nod0_L1EM20VH HLT_e60_lhvloose_nod0 HLT_e200_etcut HLT_e120_lhvloose_nod0  HLT_e140_lhvloose_nod0  HLT_e300_etcut HLT_2mu10 HLT_mu18_mu8noL1 HLT_mu20_iloose_L1MU15 HLT_mu50 HLT_mu26_ivarmedium HLT_2mu14 HLT_mu22_mu8noL1
+EL_N 28000 >= 1
+MU_N 28000 >= 1
+NOBADMUON
+TRIGMATCH
+DECORATE_SFs
+#GTRIGMATCH
+
+SUB DIELECTRON
+. BASIC
+#GTRIGDEC 
+TRIGDEC HLT_e26_lhvloose_nod0_L1EM20VH HLT_e60_lhvloose_nod0 HLT_e200_etcut HLT_e120_lhvloose_nod0  HLT_e140_lhvloose_nod0  HLT_e300_etcut HLT_2mu10 HLT_mu18_mu8noL1 HLT_mu20_iloose_L1MU15 HLT_mu50 HLT_mu26_ivarmedium HLT_2mu14 HLT_mu22_mu8noL1 
+EL_N 28000 == 2
+MU_N 28000 == 0
+NOBADMUON
+#GTRIGMATCH
+TRIGMATCH
+DECORATE_SFs
+
+SUB DIELECTRON_withmu
+. BASIC
+#GTRIGDEC 
+TRIGDEC HLT_e26_lhvloose_nod0_L1EM20VH HLT_e60_lhvloose_nod0 HLT_e200_etcut HLT_e120_lhvloose_nod0  HLT_e140_lhvloose_nod0  HLT_e300_etcut HLT_2mu10 HLT_mu18_mu8noL1 HLT_mu20_iloose_L1MU15 HLT_mu50 HLT_mu26_ivarmedium HLT_2mu14 HLT_mu22_mu8noL1 
+EL_N 28000 == 2
+MU_N 28000 == 1
+NOBADMUON
+#GTRIGMATCH
+TRIGMATCH
+DECORATE_SFs
+
+
+SUB DIMUON
+. BASIC
+#GTRIGDEC
+TRIGDEC HLT_e26_lhvloose_nod0_L1EM20VH HLT_e60_lhvloose_nod0 HLT_e200_etcut HLT_e120_lhvloose_nod0  HLT_e140_lhvloose_nod0  HLT_e300_etcut HLT_2mu10 HLT_mu18_mu8noL1 HLT_mu20_iloose_L1MU15 HLT_mu50 HLT_mu26_ivarmedium HLT_2mu14 HLT_mu22_mu8noL1 
+EL_N 28000 == 0
+MU_N 28000 == 2
+NOBADMUON
+#GTRIGMATCH
+TRIGMATCH
+DECORATE_SFs
+
+SUB SINGLEELECTRON
+. BASIC
+#GTRIGDEC
+TRIGDEC HLT_e26_lhvloose_nod0_L1EM20VH HLT_e60_lhvloose_nod0 HLT_e200_etcut HLT_e120_lhvloose_nod0  HLT_e140_lhvloose_nod0  HLT_e300_etcut 
+EL_N 28000 >= 1
+MU_N 28000 == 0
+NOBADMUON
+#GTRIGMATCH
+TRIGMATCH
+DECORATE_SFs
+
+
+SELECTION mumuSelection
+. DIMUON
+SAVE
+
+SELECTION emu
+. ELECTRONMUON
+SAVE
+
+SELECTION eeSelection
+. DIELECTRON
+SAVE
+
+SELECTION eeSelection_withmuon
+. DIELECTRON_withmu
+SAVE
+
+SELECTION SingleElectron
+. SINGLEELECTRON
+SAVE
+
