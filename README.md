@@ -38,15 +38,23 @@ Run it from a directory containing the three run cards:
 
 ```sh
 singularity exec \
-  --bind "$PWD:/work" \
-  --pwd /work \
   dragonwell-v0.0.1alpha.sif \
   PDFFit_Minuit2
 ```
 
 Replace `singularity` with `apptainer` when that is the command installed on
-the cluster. Bind any dataset or grid directories referenced by the run cards
-if the HPC installation does not already expose those paths inside containers.
+the cluster. Singularity/Apptainer bind the current directory by default, so no
+explicit working-directory bind is needed. Bind only external paths that the
+cluster does not already expose inside containers. For example, to supply an
+LHAPDF data directory:
+
+```sh
+singularity exec \
+  --bind /path/on/host/lhapdf:/lhapdf \
+  --env LHAPDF_DATA_PATH=/lhapdf \
+  dragonwell-v0.0.1alpha.sif \
+  PDFFit_Minuit2
+```
 
 ## Local Docker build
 
