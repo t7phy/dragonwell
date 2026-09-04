@@ -1,69 +1,41 @@
 # DragonWell
 
-DragonWell is a PDF-fitting code built around ROOT and a collection of HEP
-libraries. This repository includes a reproducible Linux x86-64 container that
-builds the complete set of features enabled by DragonWell's default CMake
-configuration, including APFEL, APFELgrid, APFEL++, BAT, and PineAPPL.
+## Download with Singularity / Apptainer
 
-The run cards (`Config.yml`, `DataList.yml`, and `Parameters.yml`) and external
-datasets are runtime inputs; they are not baked into the image.
-
-## Published container
-
-Pushing a Git tag whose name begins with `v` publishes the corresponding OCI
-image to GitHub Container Registry. Each tagged release publishes both its
-version tag and `latest`. For example, tag `v0.0.2alpha` publishes:
-
-```text
-ghcr.io/t7phy/dragonwell:v0.0.2alpha
-ghcr.io/t7phy/dragonwell:latest
-```
-
-The workflow accepts tags only when the tagged commit is part of `main`. It
-publishes Linux x86-64 images. The `latest` tag points to the most recently
-published tagged release, while version tags remain available for reproducible
-runs.
-
-After the first workflow run, verify that the package visibility is **Public**
-under the package settings on GitHub. Public GHCR images can be pulled without
-registry credentials.
-
-## Singularity / Apptainer on HPC
-
-Pull the OCI image and convert it to SIF:
+Download the latest published container and replace any existing local copy:
 
 ```sh
 singularity pull --force dragonwell.sif \
   docker://ghcr.io/t7phy/dragonwell:latest
 ```
 
-The `--force` option refreshes the same local file when a newer tagged release
-updates `latest`. For a reproducible run, use a versioned URI and filename:
+For a reproducible run, download a specific release instead:
 
 ```sh
-singularity pull dragonwell-v0.0.2alpha.sif \
-  docker://ghcr.io/t7phy/dragonwell:v0.0.2alpha
+singularity pull dragonwell-v0.0.4alpha.sif \
+  docker://ghcr.io/t7phy/dragonwell:v0.0.4alpha
 ```
 
-Open the container's shell:
+Replace `singularity` with `apptainer` if that is the command installed on
+your system.
+
+## Run with Singularity / Apptainer
+
+Open the container shell:
 
 ```sh
 singularity run dragonwell.sif
 ```
 
-Run DragonWell explicitly from a directory containing the three run cards:
+To run `PDFFit_Minuit2`, change to the directory containing `Config.yml`,
+`DataList.yml`, and `Parameters.yml`, then run:
 
 ```sh
-singularity exec \
-  dragonwell.sif \
-  PDFFit_Minuit2
+singularity exec dragonwell.sif PDFFit_Minuit2
 ```
 
-Replace `singularity` with `apptainer` when that is the command installed on
-the cluster. Singularity/Apptainer bind the current directory by default, so no
-explicit working-directory bind is needed. Bind only external paths that the
-cluster does not already expose inside containers. For example, to supply an
-LHAPDF data directory:
+The current directory is normally bound automatically. If the run uses an
+external LHAPDF installation, bind its data directory to `/lhapdf`:
 
 ```sh
 singularity exec \
@@ -72,29 +44,40 @@ singularity exec \
   PDFFit_Minuit2
 ```
 
-## Local Docker build
+## Download and run with Docker
 
-Build from the repository root:
-
-```sh
-docker build --progress=plain --tag dragonwell:dev .
-```
-
-Open the container's shell:
+Download the latest published image:
 
 ```sh
-docker run --rm -it dragonwell:dev
+docker pull ghcr.io/t7phy/dragonwell:latest
 ```
 
-Run DragonWell explicitly from a directory containing the three run cards:
+Open the container shell:
+
+```sh
+docker run --rm -it ghcr.io/t7phy/dragonwell:latest
+```
+
+Docker does not bind the current directory automatically. To run
+`PDFFit_Minuit2`, change to the directory containing `Config.yml`,
+`DataList.yml`, and `Parameters.yml`, then mount that directory as `/work`:
 
 ```sh
 docker run --rm -it \
   --volume "$PWD:/work" \
   --workdir /work \
-  dragonwell:dev \
+  ghcr.io/t7phy/dragonwell:latest \
   PDFFit_Minuit2
 ```
 
-See [`containers/README.md`](containers/README.md) for dependency and runtime
-details.
+If the run uses an external LHAPDF installation, mount its data directory as
+`/lhapdf` as well:
+
+```sh
+docker run --rm -it \
+  --volume "$PWD:/work" \
+  --volume "$(lhapdf-config --datadir):/lhapdf" \
+  --workdir /work \
+  ghcr.io/t7phy/dragonwell:latest \
+  PDFFit_Minuit2
+```
